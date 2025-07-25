@@ -74,11 +74,14 @@ WSGI_APPLICATION = 'alexandria_hostels.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
+        conn_max_age=600
+    )
 }
+
+
 
 
 # Password validation
@@ -133,15 +136,20 @@ import dj_database_url
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-default-key')
+SECRET_KEY  = os.getenv('DJANGO_SECRET_KEY', 'unsafe-default-secret')
+
 
 ALLOWED_HOSTS = ['your-app-name.onrender.com']
-
 DATABASES = {
+   
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
+        default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
+        conn_max_age=600
     )
 }
+
+
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

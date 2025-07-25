@@ -1,9 +1,9 @@
 services:
   - type: web
     name: alexandria-hostels
-    runtime: python
+    env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn alexandria_hostels.wsgi:application"
+    startCommand: "gunicorn alexandria_hostels.wsgi"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: alexandria_hostels.settings
@@ -13,7 +13,6 @@ services:
         fromDatabase:
           name: alexandria-db
           property: connectionString
-    plan: free
 
 databases:
   - name: alexandria-db
