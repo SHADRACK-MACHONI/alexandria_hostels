@@ -140,14 +140,7 @@ SECRET_KEY  = os.getenv('DJANGO_SECRET_KEY', 'unsafe-default-secret')
 
 
 ALLOWED_HOSTS = ['your-app-name.onrender.com']
-DATABASES = {
-   
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
-        conn_max_age=600
-    )
 
-}
 
 DATABASES = {
     'default': dj_database_url.config(default='sqlite:///db.sqlite3')
