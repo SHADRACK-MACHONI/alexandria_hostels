@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4 text-center">🎉 Entertainment & Social Events</h2>
+  <div class="row">
+    {% for item in entertainment_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow rounded-3 border-0">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ item.type }} - {{ item.date }}</h6>
+            <p class="card-text">{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p>No upcoming entertainment events. Please check back later!</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,125 @@
+<!-- templates/main/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Alexandria Hostels</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <!-- Dashboard Button (Hamburger) -->
+      <button onclick="toggleSidebar()" class="border p-2 rounded hover:bg-gray-200 transition">
+        <div class="w-6 h-0.5 bg-gray-800 mb-1"></div>
+        <div class="w-6 h-0.5 bg-gray-800 mb-1"></div>
+        <div class="w-6 h-0.5 bg-gray-800"></div>
+      </button>
+      <h1 class="text-xl font-bold text-blue-700">Alexandria Hostels Dashboard</h1>
+    </div>
+    <div>
+      <a href="{% url 'logout' %}" class="text-red-600 hover:underline">Logout</a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-64 bg-white shadow h-screen fixed top-16 left-0 p-4 hidden lg:block z-40">
+    <ul class="space-y-3">
+      <li><a href="#resources" class="block py-2 text-blue-700 hover:underline">📁 Resources</a></li>
+      <li><a href="#bookings" class="block py-2 text-blue-700 hover:underline">🏨 Bookings</a></li>
+      <li><a href="#payments" class="block py-2 text-blue-700 hover:underline">💳 Payments</a></li>
+      <li><a href="#chats" class="block py-2 text-blue-700 hover:underline">💬 Chat</a></li>
+      <li><a href="#entertainment" class="block py-2 text-blue-700 hover:underline">🎬 Entertainment</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="lg:ml-64 p-6">
+
+    <!-- Resources Section -->
+    <section id="resources" class="bg-white rounded shadow p-4 mb-6">
+      <h2 class="text-lg font-semibold border-b mb-3">📁 Resources</h2>
+      {% for resource in resources %}
+        <div class="mb-2">
+          <h3 class="font-bold">{{ resource.name }}</h3>
+          <p class="text-sm text-gray-600">{{ resource.description }}</p>
+        </div>
+      {% empty %}
+        <p class="text-gray-500">No resources available.</p>
+      {% endfor %}
+    </section>
+
+    <!-- Bookings Section -->
+    <section id="bookings" class="bg-white rounded shadow p-4 mb-6">
+      <h2 class="text-lg font-semibold border-b mb-3">🏨 Bookings</h2>
+      {% for booking in bookings %}
+        <div class="mb-2 border p-2 rounded bg-gray-50">
+          <p><strong>Room:</strong> {{ booking.room.name }} | <strong>By:</strong> {{ booking.user.username }}</p>
+          <p><strong>Date:</strong> {{ booking.date }}</p>
+        </div>
+      {% empty %}
+        <p class="text-gray-500">No bookings yet.</p>
+      {% endfor %}
+    </section>
+
+    <!-- Payments Section -->
+    <section id="payments" class="bg-white rounded shadow p-4 mb-6">
+      <h2 class="text-lg font-semibold border-b mb-3">💳 Payments</h2>
+      {% for payment in payments %}
+        <div class="mb-2 border p-2 rounded bg-gray-50">
+          <p><strong>Amount:</strong> KES {{ payment.amount }}</p>
+          <p><strong>By:</strong> {{ payment.user.username }} | <strong>Date:</strong> {{ payment.date }}</p>
+        </div>
+      {% empty %}
+        <p class="text-gray-500">No payment records found.</p>
+      {% endfor %}
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chats" class="bg-white rounded shadow p-4 mb-6">
+      <h2 class="text-lg font-semibold border-b mb-3">💬 Chat (Announcements)</h2>
+      <div class="max-h-64 overflow-y-auto space-y-2">
+        {% for message in chats %}
+          <div class="bg-blue-100 p-2 rounded">
+            <p class="font-semibold">{{ message.user.username }}</p>
+            <p>{{ message.message }}</p>
+            <p class="text-xs text-gray-500">{{ message.timestamp|date:"M d, Y H:i" }}</p>
+          </div>
+        {% empty %}
+          <p class="text-gray-500">No chat messages available.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Entertainment Section -->
+    <section id="entertainment" class="bg-white p-4 rounded shadow">
+      <h2 class="text-lg font-semibold border-b mb-3">🎬 Entertainment & Updates</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for item in entertainment %}
+        <div class="border rounded-lg p-4 bg-gray-100 shadow hover:shadow-lg transition">
+          <h3 class="font-bold text-lg">{{ item.title }}</h3>
+          <p class="text-sm text-gray-600">{{ item.category|title }} • {{ item.date_added|date:"M d, Y" }}</p>
+          <p class="mt-2 text-gray-700">{{ item.description|truncatewords:20 }}</p>
+          {% if item.link %}
+          <a href="{{ item.link }}" target="_blank" class="mt-2 inline-block text-blue-600 hover:underline">View More</a>
+          {% endif %}
+        </div>
+        {% empty %}
+        <p class="text-gray-500 col-span-3">No entertainment items available yet.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toggle Sidebar Script -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

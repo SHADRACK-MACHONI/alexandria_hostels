@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logged Out - Alexandria Hostels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <div class="min-h-screen flex flex-col items-center justify-center">
+    <h1 class="text-3xl font-bold text-cyan-800 mb-4">You have been logged out.</h1>
+    <a href="{% url 'login' %}" class="bg-cyan-800 text-white px-4 py-2 rounded hover:bg-cyan-700">
+      Login Again
+    </a>
+  </div>
+
+</body>
+</html>

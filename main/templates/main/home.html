@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alexandria Hostels | Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Top Navigation Bar -->
+  <nav class="bg-white shadow-md p-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+      <!-- Dashboard Icon -->
+      <button onclick="toggleDashboard()" class="w-10 h-10 bg-gray-800 text-white rounded-md flex items-center justify-center hover:bg-gray-700">
+        ☰
+      </button>
+      <h1 class="text-2xl font-semibold">Alexandria Hostels</h1>
+    </div>
+    <div class="space-x-4">
+      <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Login</a>
+      <a href="{% url 'register' %}" class="text-blue-600 hover:underline">Register</a>
+    </div>
+  </nav>
+
+  <!-- Dashboard Dropdown -->
+  <div id="dashboardMenu" class="hidden bg-white shadow-md p-4 mt-2 mx-4 rounded-lg">
+    <ul class="space-y-2">
+      <li><a href="{% url 'dashboard' %}" class="block text-gray-700 hover:text-blue-600">Dashboard</a></li>
+      <li><a href="{% url 'resources' %}" class="block text-gray-700 hover:text-blue-600">Resources</a></li>
+      <li><a href="{% url 'rooms' %}" class="block text-gray-700 hover:text-blue-600">Room Booking</a></li>
+      <li><a href="{% url 'chat' %}" class="block text-gray-700 hover:text-blue-600">Chat</a></li>
+      <li><a href="{% url 'payments' %}" class="block text-gray-700 hover:text-blue-600">Payments</a></li>
+      <li><a href="{% url 'entertainment' %}" class="block text-gray-700 hover:text-blue-600">Entertainment</a></li>
+      <li><a href="{% url 'logout' %}" class="block text-red-600 hover:underline">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Rooms Section -->
+  <section class="py-10 px-6">
+    <h2 class="text-3xl font-bold mb-6">Available Rooms</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {% for room in rooms %}
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ room.image.url }}" alt="Room {{ room.number }}" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold mb-2">Room {{ room.number }}</h3>
+          <p class="text-gray-600 mb-3">KES {{ room.price }}</p>
+          <a href="{% url 'book_room' room.id %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
+            Book Now
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script>
+    function toggleDashboard() {
+      const menu = document.getElementById('dashboardMenu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

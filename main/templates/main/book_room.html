@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Book a Room</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" class="card p-4 shadow-sm bg-light">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary mt-3 w-100">Confirm Booking</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h5 class="mb-3">Available Rooms</h5>
+            <div class="row row-cols-2 g-3">
+                {% for room in rooms %}
+                <div class="col">
+                    <div class="card shadow-sm {% if room.is_booked %}bg-secondary text-white{% else %}bg-success text-white{% endif %}">
+                        <div class="card-body">
+                            <h6>Room {{ room.number }}</h6>
+                            <p class="mb-1">{{ room.get_room_type_display }}</p>
+                            <p>Price: Ksh {{ room.price }}</p>
+                            <span class="badge {% if room.is_booked %}bg-warning{% else %}bg-light text-dark{% endif %}">
+                                {% if room.is_booked %}Booked{% else %}Available{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
