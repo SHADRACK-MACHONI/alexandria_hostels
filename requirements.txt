@@ -6,4 +6,5 @@ pillow==11.3.0
 psycopg2-binary==2.9.10
 sqlparse==0.5.3
 tzdata==2025.2
-gunicorn
+gunicorn==21.2.0
+
